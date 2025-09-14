@@ -253,38 +253,15 @@ def plot_image(image, boxes):
 
 
 
-def save_checkpoint(model, optimizer, filename):
-    print("==> Saving checkpoint")
-    checkpoint = {
-        "state_dict": model.state_dict(),
-        "optimizer": optimizer.state_dict(),
-    }
-
-    # Define the path to the folder
-    if filename == "checkpoint.pth.tar":
-        drive_path = "/content/drive/MyDrive/Vehicle_Detection/checkpoint_custom"
-    else:
-        drive_path = "/content/drive/MyDrive/Vehicle_Detection/checkpoint_pretrained"
-
-    # Combine the drive path and the filename
-    full_path = os.path.join(drive_path, filename)
-    torch.save(checkpoint, full_path)
-
-
 
 
 # Function to load checkpoint
 def load_checkpoint(checkpoint_file, model, optimizer, lr):
     print("==> Loading checkpoint")
     # Define the path to the folder
-    if checkpoint_file == "checkpoint.pth.tar":
-        drive_path = "/content/drive/MyDrive/Vehicle_Detection/checkpoint_custom"
-    elif checkpoint_file == "best_checkpoint.pth.tar":
-        drive_path = "/content/drive/MyDrive/Vehicle_Detection/checkpoint_pretrained"
-    else:
-        # Handle other cases or raise an error if the filename is unexpected
-        drive_path = os.path.dirname(checkpoint_file) # Use the directory of the provided file
-
+    
+    drive_path = "checkpoint_pretrained"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     # Combine the drive path and the filename
     full_path = os.path.join(drive_path, checkpoint_file)
     checkpoint = torch.load(full_path, map_location=device)
